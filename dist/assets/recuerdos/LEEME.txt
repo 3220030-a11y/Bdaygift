@@ -1,0 +1,13 @@
+CÓMO ESTÁ ORGANIZADA “NUESTROS RECUERDOS”
+============================================================
+
+thumbs/ contiene las miniaturas ligeras que aparecen en la galería.
+full/ contiene las fotografías que se cargan al abrir el visor.
+
+gallery-data.js registra la ubicación y las dimensiones de las 168 imágenes.
+script.js crea la galería y controla el visor, sus flechas y el teclado.
+styles.css contiene el diseño responsive de la galería.
+
+Las fotografías no muestran descripciones ni textos debajo.
+
+Consejo: usa archivos JPG o WEBP optimizados para que la página cargue rápido.

@@ -1,0 +1,375 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <!-- Configuración general y metadatos -->
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Un regalo de cumpleaños para Rebeca." />
+    <meta name="theme-color" content="#d72673" />
+    <title>Happy Birthday Rebeca</title>
+
+    <!-- Recursos prioritarios: se descargan primero porque aparecen en la portada. -->
+    <link rel="preload" href="assets/capybara-photo.webp" as="image" fetchpriority="high" />
+    <link rel="preload" href="assets/capybara-party.webp" as="image" fetchpriority="high" />
+
+    <!-- Tipografías y archivos principales de la página. -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@500;600;700&family=Great+Vibes&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="styles.css" />
+    <!-- Datos de las 168 fotografías y comportamiento general de la página. -->
+    <script src="gallery-data.js" defer></script>
+    <script src="script.js" defer></script>
+  </head>
+  <body>
+    <!--
+      CONTENEDOR PRINCIPAL
+      Las tres pantallas se desplazan verticalmente con JavaScript y CSS.
+    -->
+    <main class="experience">
+      <!-- ============================================================
+           PANTALLA 1: PORTADA CON IMÁGENES Y EFECTO PARALLAX
+           ============================================================ -->
+      <section class="screen hero" aria-label="Portada de cumpleaños para Rebeca">
+        <!-- Escenas que cambian automáticamente cada pocos segundos -->
+        <div class="scenes" aria-hidden="true">
+          <div class="scene is-active">
+            <div class="scene__backdrop" style="--image: url('assets/capybara-photo.webp')" data-depth="0.18"></div>
+            <img class="scene__feature scene__feature--wide" src="assets/capybara-party.webp" alt="" data-depth="0.72" fetchpriority="high" />
+          </div>
+          <div class="scene">
+            <div class="scene__backdrop" style="--image: url('assets/snow-white.webp')" data-depth="0.18"></div>
+            <img class="scene__feature scene__feature--landscape" src="assets/snow-white.webp" alt="" data-depth="0.62" loading="lazy" decoding="async" />
+          </div>
+          <div class="scene">
+            <div class="scene__backdrop" style="--image: url('assets/austin-sofa.webp')" data-depth="0.18"></div>
+            <img class="scene__feature scene__feature--portrait" src="assets/austin-sofa.webp" alt="" data-depth="0.65" loading="lazy" decoding="async" />
+          </div>
+          <div class="scene">
+            <div class="scene__backdrop" style="--image: url('assets/hsm-stage.webp')" data-depth="0.18"></div>
+            <img class="scene__feature scene__feature--landscape" src="assets/hsm-stage.webp" alt="" data-depth="0.62" loading="lazy" decoding="async" />
+          </div>
+          <div class="scene">
+            <div class="scene__backdrop scene__backdrop--pink" data-depth="0.18"></div>
+            <img class="scene__feature scene__feature--kittens" src="assets/cute-kittens.webp" alt="" data-depth="0.78" loading="lazy" decoding="async" />
+          </div>
+        </div>
+
+        <!-- Capa oscura y destellos para mejorar la lectura del título -->
+        <div class="hero__veil" aria-hidden="true"></div>
+        <div class="sparkles" aria-hidden="true" data-depth="1.1">
+          <i style="--x: 9%; --y: 16%; --delay: -1s">✦</i>
+          <i style="--x: 86%; --y: 19%; --delay: -2.8s">✧</i>
+          <i style="--x: 16%; --y: 77%; --delay: -4s">✧</i>
+          <i style="--x: 82%; --y: 70%; --delay: -1.9s">✦</i>
+        </div>
+
+        <!-- Título principal y botón para avanzar -->
+        <div class="hero__content" data-depth="0.32">
+          <h1><span>Happy Birthday</span><strong>Rebeca</strong></h1>
+          <p class="age-badge"><b>12</b> añitos</p>
+          <button class="primary-button" id="open-gift" type="button">
+            Siguiente
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m9 18 6-6-6-6" /></svg>
+          </button>
+        </div>
+      </section>
+
+      <!-- ============================================================
+           PANTALLA 2: PREGUNTA INICIAL DEL REGALO
+           ============================================================ -->
+      <section class="screen invitation" aria-labelledby="invitation-message" aria-hidden="true">
+        <div class="invitation__halo" aria-hidden="true"></div>
+        <img class="invitation__capybaras" src="assets/capybara-party.webp" alt="" aria-hidden="true" loading="lazy" decoding="async" />
+        <img class="invitation__kittens" src="assets/cute-kittens.webp" alt="" aria-hidden="true" loading="lazy" decoding="async" />
+        <div class="invitation__card">
+          <p id="invitation-message">¿Quieres ver el regalo que hice para ti?</p>
+          <div class="invitation__actions">
+            <button class="primary-button" id="answer-yes" type="button">Sí</button>
+            <button class="secondary-button" id="answer-no" type="button">No</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============================================================
+           PANTALLA 3: MENÚ DE REGALOS
+           Esta pantalla tiene su propio desplazamiento vertical.
+           ============================================================ -->
+      <section class="screen gifts" aria-labelledby="gifts-title" aria-hidden="true">
+        <div class="gifts__content">
+          <h2 id="gifts-title">Regalos para ti</h2>
+
+          <!-- Botones de las cuatro partes del regalo -->
+          <div class="gift-grid" aria-label="Tus regalos">
+            <button class="gift-button gift-button--music" id="open-songs" type="button">
+              <span class="gift-button__icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24"><path d="M9 18V5l11-2v13M9 9l11-2M6.5 21C4.57 21 3 19.88 3 18.5S4.57 16 6.5 16 10 17.12 10 18.5 8.43 21 6.5 21Zm11-2c-1.93 0-3.5-1.12-3.5-2.5s1.57-2.5 3.5-2.5 3.5 1.12 3.5 2.5-1.57 2.5-3.5 2.5Z" /></svg>
+              </span>
+              <span>Te dedico estas canciones</span>
+            </button>
+            <button class="gift-button" id="open-memories" type="button"><span class="gift-button__icon" aria-hidden="true">♡</span><span>Nuestros recuerdos</span></button>
+            <button class="gift-button" id="open-messages" type="button"><span class="gift-button__icon" aria-hidden="true">✉</span><span>Mensajes para ti</span></button>
+            <button class="gift-button" id="open-wish" type="button"><span class="gift-button__icon" aria-hidden="true">🎂</span><span>Pide un deseo</span></button>
+          </div>
+
+          <!-- Panel 1: videos de las canciones dedicadas -->
+          <section class="gift-panel songs-panel" id="songs-panel" aria-labelledby="songs-title" hidden>
+            <div class="gift-panel__header">
+              <h3 id="songs-title">Cuatro canciones para ti</h3>
+              <button class="close-button" id="close-songs" type="button" aria-label="Cerrar canciones">×</button>
+            </div>
+            <div class="song-grid">
+              <!--
+                Los videos usan data-src en vez de src.
+                JavaScript activa las fuentes solamente cuando se abre esta sección.
+              -->
+              <article class="song-card">
+                <h4><span>01</span> At All Costs</h4>
+                <p>Chris Pine y Ariana DeBose</p>
+                <video controls preload="none" playsinline poster="assets/posters/at-all-costs.webp" aria-label="At All Costs, de Chris Pine y Ariana DeBose">
+                  <source data-src="assets/videos/at-all-costs.mp4" type="video/mp4" />
+                  Tu navegador no puede reproducir este video.
+                </video>
+              </article>
+
+              <article class="song-card">
+                <h4><span>02</span> Die With A Smile</h4>
+                <p>Lady Gaga y Bruno Mars</p>
+                <video controls preload="none" playsinline poster="assets/posters/die-with-a-smile.webp" aria-label="Die With A Smile, de Lady Gaga y Bruno Mars">
+                  <source data-src="assets/videos/die-with-a-smile.mp4" type="video/mp4" />
+                  Tu navegador no puede reproducir este video.
+                </video>
+              </article>
+
+              <article class="song-card">
+                <h4><span>03</span> A Thousand Years</h4>
+                <p>Christina Perri</p>
+                <video controls preload="none" playsinline poster="assets/posters/a-thousand-years.webp" aria-label="A Thousand Years, de Christina Perri">
+                  <source data-src="assets/videos/a-thousand-years.mp4" type="video/mp4" />
+                  Tu navegador no puede reproducir este video.
+                </video>
+              </article>
+
+              <article class="song-card">
+                <h4><span>04</span> You Can Come To Me</h4>
+                <p>Ross Lynch y Laura Marano</p>
+                <video controls preload="none" playsinline poster="assets/posters/you-can-come-to-me.webp" aria-label="You Can Come To Me, de Ross Lynch y Laura Marano">
+                  <source data-src="assets/videos/you-can-come-to-me.mp4" type="video/mp4" />
+                  Tu navegador no puede reproducir este video.
+                </video>
+              </article>
+            </div>
+          </section>
+
+          <!-- ========================================================
+               PANEL 2: NUESTROS RECUERDOS
+               JavaScript crea la galería usando gallery-data.js.
+               Las miniaturas se cargan poco a poco para mantener la
+               página rápida, incluso con muchas fotografías.
+               ======================================================== -->
+          <section class="gift-panel memories-panel" id="memories-panel" aria-labelledby="memories-title" hidden>
+            <div class="gift-panel__header">
+              <h3 id="memories-title">Nuestros recuerdos</h3>
+              <button class="close-button" id="close-memories" type="button" aria-label="Cerrar nuestros recuerdos">×</button>
+            </div>
+
+            <!-- Las 168 fotografías se insertan aquí automáticamente. -->
+            <div class="memory-grid" id="memory-grid" aria-label="Galería de nuestros recuerdos"></div>
+          </section>
+
+          <!-- ========================================================
+               PANEL 3: MENSAJES PARA REBECA
+               Cada mensaje familiar se presenta como una carta.
+               ======================================================== -->
+          <section class="gift-panel messages-panel" id="messages-panel" aria-labelledby="messages-title" hidden>
+            <div class="gift-panel__header">
+              <h3 id="messages-title">Mensajes para ti</h3>
+              <button class="close-button" id="close-messages" type="button" aria-label="Cerrar mensajes para ti">×</button>
+            </div>
+
+            <div class="message-grid">
+              <!-- Mensaje 1: Tu Tochi -->
+              <article class="message-card">
+                <span class="message-card__heart" aria-hidden="true">♥</span>
+                <p class="message-card__greeting">Mi tesoro y amor Rebeca María,</p>
+
+                <p>
+                  En este día 29 de septiembre recuerdo tu nacimiento y desde el 29 de septiembre del 2014 mi vida fue diferente.
+                  Estoy profundamente agradecida con Dios por haberme puesto en mi vida una hermanita como tú.
+                </p>
+
+                <p>
+                  Tú eres una bendición en mi vida, contigo pude ver cómo un bebé aprende a gatear, caminar, hablar, comer, reír,
+                  jugar, escribir, aprender. Como ya te he mencionado en otras ocasiones, tú eres un ejemplo a seguir para mí.
+                  Me has enseñado muchísimo: a ser agradecida, valiente, me has ayudado con mi autoestima, a ser creativa,
+                  a compartir y a ser abnegada. Me has enseñado a amar, tener empatía y compasión.
+                </p>
+
+                <p>
+                  Tú eres una niña muy inteligente en muchas formas, en tu forma de expresarte, de pensar, de realizar las cosas.
+                  Hermanita, te amo muchísimo, mi vida fue un antes y un después contigo. Compartir mi vida desde los 10 años
+                  contigo ha sido <strong>LO MEJOR</strong> que me ha pasado en la vida (no estoy exagerando).
+                  Es una bendición tener una hermana que es lo único certero en la vida.
+                  Te amo muchísimo y a seguir creciendo <strong>JUNTAS!!!</strong>
+                </p>
+
+                <p class="message-card__emojis" aria-label="Amor, abrazo, beso y celebración">💕🤗😘🥳</p>
+                <p class="message-card__signature">De: Tu Tochi ❤️</p>
+              </article>
+
+              <!-- Mensaje 2: Papi -->
+              <article class="message-card">
+                <span class="message-card__heart" aria-hidden="true">♥</span>
+                <p class="message-card__greeting">Hola, mi amor:</p>
+
+                <p>
+                  Busqué muchas formas de decirte lo que llevo en mi corazón, pero no encontré mejor manera que comenzar con matemáticas:
+                </p>
+
+                <ul class="message-card__time" aria-label="El tiempo transcurrido desde el nacimiento de Rebeca">
+                  <li><strong>105,192</strong><span>horas</span></li>
+                  <li><strong>4,383</strong><span>días</span></li>
+                  <li><strong>626</strong><span>semanas y 1 día</span></li>
+                  <li><strong>144</strong><span>meses</span></li>
+                  <li><strong>12</strong><span>años</span></li>
+                </ul>
+
+                <p class="message-card__question">¿Sabes qué significan todos esos números?</p>
+
+                <p>
+                  Es el tiempo que ha pasado desde aquel lunes <strong>29 de septiembre de 2014, a las 7:00 de la mañana</strong>,
+                  cuando el Señor te envió a nuestras vidas.
+                </p>
+
+                <p>
+                  Y en medio de tantos números, hay algo que no puedo contar: todo lo que he aprendido de ti y todo lo que me has
+                  enseñado en estos 12 años.
+                </p>
+
+                <ol class="message-card__reasons">
+                  <li>Tu fortaleza.</li>
+                  <li>Tu dulzura.</li>
+                  <li>Tu buen ánimo.</li>
+                  <li>Tu gran capacidad para comunicarte.</li>
+                  <li>Tu buen gusto por la comida.</li>
+                  <li>Tu sentido del humor.</li>
+                  <li>Tu capacidad de asombro.</li>
+                  <li>Tu inteligencia y creatividad.</li>
+                  <li>Tu alegría y espontaneidad.</li>
+                  <li>Tu linda voz y tu amor por el arte.</li>
+                  <li>Tu fe viva.</li>
+                  <li>Tu amor, que tan bien expresas cuando me das a Peludín y Torete.</li>
+                </ol>
+
+                <p>
+                  Son miles las razones que tengo para agradecer al Señor por tu vida, y ni 100,000 palabras podrían expresar
+                  todo el amor que siento por ti.
+                </p>
+
+                <p>
+                  Verte crecer ha sido una bendición. Tu vida ha colmado mi corazón de alegría, gratitud y amor.
+                  <strong>Feliz cumpleaños, mi amor. Gracias por estos maravillosos 12 años.</strong>
+                </p>
+
+                <p class="message-card__declaration">
+                  ¡¡TE AMO MÁS DE LO QUE CUALQUIER NÚMERO PODRÍA EXPRESAR!!
+                </p>
+
+                <p class="message-card__postscript">P. D. ¿Ves que para algo sirven las matemáticas?</p>
+                <p class="message-card__signature">De: Papi ❤️</p>
+              </article>
+
+              <!-- Mensaje 3: Mami -->
+              <article class="message-card">
+                <span class="message-card__heart" aria-hidden="true">♥</span>
+                <p class="message-card__greeting">Amor de mamá:</p>
+
+                <p>
+                  Hoy es un día muy especial. Dios nos regaló una lucecita hace 12 añitos. Has sido siempre una bendición
+                  y una alegría para la familia.
+                </p>
+
+                <p>
+                  Eres una niña tan inteligente, llena de amor y de la luz de Dios; una preciosa hermanita para mi Sofi
+                  y una hija que llena nuestros días de felicidad.
+                </p>
+
+                <p>
+                  Si pudiera dejarte un legado, sería que tu vida, tu corazón y todo tu ser estén sellados con la Palabra
+                  y la presencia de Dios; que la Santísima Trinidad sea inconmovible en tu vida; que puedas servirle y amarle
+                  con todo tu ser, con todas tus fuerzas, con toda tu mente y corazón; y que, en los momentos difíciles de la vida,
+                  Su Sagrado Corazón te sostenga y Su Sacrificio en la cruz te levante y renueve para llegar hasta la meta final:
+                  gozarnos con Él eternamente.
+                </p>
+
+                <p class="message-card__declaration">Vivamos construyendo nuestro cielo con Jesús.</p>
+
+                <p>
+                  Te deseo la mayor felicidad y una vida plena. ¡Que nada ni nadie apague tu luz!
+                </p>
+
+                <p>
+                  Te amo con el alma y doy gracias a Dios por ser tu mamá.
+                </p>
+
+                <p>
+                  <strong>¡Feliz cumpleaños!</strong> Amor de mamá, papá, Tochi y Jesús, María y José.
+                </p>
+
+                <p class="message-card__signature">De: Mami ❤️</p>
+              </article>
+            </div>
+          </section>
+
+          <!-- ========================================================
+               PANEL 4: PIDE UN DESEO
+               Las dos imágenes permiten mostrar las velas encendidas
+               y apagadas sin descargar recursos durante la animación.
+               ======================================================== -->
+          <section class="gift-panel wish-panel" id="wish-panel" aria-labelledby="wish-title" hidden>
+            <div class="gift-panel__header">
+              <h3 id="wish-title">Pide un deseo</h3>
+              <button class="close-button" id="close-wish" type="button" aria-label="Cerrar pide un deseo">×</button>
+            </div>
+
+            <div class="wish-scene" id="wish-scene">
+              <button class="wish-trigger" id="blow-candles" type="button" aria-describedby="wish-instruction">
+                <span class="wish-photo">
+                  <img class="wish-photo__image wish-photo__image--lit" src="assets/austin-ally-cake-lit.webp" alt="Austin y Ally frente a un pastel de cumpleaños con las velas encendidas" />
+                  <img class="wish-photo__image wish-photo__image--out" src="assets/austin-ally-cake-out.webp" alt="" aria-hidden="true" />
+                </span>
+                <span class="wish-instruction" id="wish-instruction">Toca el pastel para soplar las velas</span>
+              </button>
+
+              <!-- El confeti se dibuja aquí con JavaScript. -->
+              <canvas class="confetti-canvas" id="confetti-canvas" aria-hidden="true"></canvas>
+
+              <div class="wish-message" id="wish-message" role="status" aria-live="polite" hidden>
+                <p>TE AMAMOS REBECA,</p>
+                <strong>FELIZ CUMPLEAÑOS</strong>
+                <time datetime="2026-09-29">29 de septiembre de 2026</time>
+              </div>
+            </div>
+          </section>
+        </div>
+      </section>
+    </main>
+
+    <!-- ============================================================
+         VISOR DE FOTOGRAFÍAS
+         Permite ampliar una imagen y recorrer la galería sin cargar
+         las 168 versiones grandes al abrir la página.
+         ============================================================ -->
+    <div class="memory-lightbox" id="memory-lightbox" role="dialog" aria-modal="true" aria-label="Fotografía ampliada" tabindex="-1" hidden>
+      <button class="lightbox-button lightbox-button--close" id="close-lightbox" type="button" aria-label="Cerrar fotografía">×</button>
+      <button class="lightbox-button lightbox-button--previous" id="previous-photo" type="button" aria-label="Fotografía anterior">‹</button>
+
+      <figure class="lightbox-figure">
+        <img id="lightbox-image" src="" alt="" />
+        <span class="lightbox-counter" id="lightbox-counter" aria-live="polite"></span>
+      </figure>
+
+      <button class="lightbox-button lightbox-button--next" id="next-photo" type="button" aria-label="Fotografía siguiente">›</button>
+    </div>
+  </body>
+</html>
